@@ -1,0 +1,181 @@
+﻿<Window x:Class="DuplicateSearch.View.DuplicateSearchView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DuplicateSearch.Model"
+        Title="DuplicateSearchView" Height="700" Width="1200" WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded" WindowState="Maximized" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/DuplicateSearchSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type local:NameGroup}">
+                <Grid HorizontalAlignment="Left" >
+                    <TextBlock Text="{Binding FileName}"  Padding="3" Margin="3"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:SizeGroup}">
+                <Grid HorizontalAlignment="Left" >
+                    <TextBlock Text="{Binding Size}" Padding="3" Margin="3"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:NameSizeGroup}">
+                <Grid HorizontalAlignment="Left" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding FileName}" Padding="3" Margin="3"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Size}" Padding="3" Margin="3"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:NameSizeDateGroup}">
+                <Grid HorizontalAlignment="Left" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding FileName}" Padding="3" Margin="3"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Size}" Padding="3" Margin="3"/>
+                    <TextBlock Grid.Column="2" Text="{Binding FileDateTime}" Padding="3" Margin="3"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:SizeDateGroup}">
+                <Grid HorizontalAlignment="Left" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="1" Text="{Binding Size}" Padding="3" Margin="3"/>
+                    <TextBlock Grid.Column="0" Text="{Binding FileDateTime}" Padding="3" Margin="3"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:NameDateGroup}">
+                <Grid HorizontalAlignment="Left" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding FileName}" Padding="3" Margin="3"/>
+                    <TextBlock Grid.Column="1" Text="{Binding FileDateTime}" Padding="3" Margin="3"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="_Directory" Target="{Binding ElementName=txtDirectory}" />
+            <TextBox x:Name="txtDirectory" Grid.Column="1" Text="{Binding DirectoryStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource InputStyle}"/>
+            <Button Grid.Column="2" ToolTip="Define Start Directory" Command="{Binding GetStartDirectoryCommand}"  Style="{StaticResource ButtonImage}">
+                <Image  Source="Picture\OpenFileDialog_692_24.bmp"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="_Mask" Target="{Binding ElementName=txtMask}"/>
+            <TextBox x:Name="txtMask" Grid.Column="1" Text="{Binding Mask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource InputStyle}"/>
+            <Label Grid.Column="2" Content="Size _From" Target="{Binding ElementName=txtSizeFrom}"/>
+            <TextBox x:Name="txtSizeFrom" Grid.Column="3" Text="{Binding SizeFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputStyle}"/>
+            <Label Grid.Column="4" Content="_To" Target="{Binding ElementName=txtSizeTo}"/>
+            <TextBox x:Name="txtSizeTo" Grid.Column="5" Text="{Binding SizeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource InputStyle}"/>
+            <CheckBox Grid.Column="8" IsChecked="{Binding IsFilterBySize, Mode=TwoWay}" Content="Filter by Size" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" IsChecked="{Binding IsGroupByName, Mode=TwoWay}" Content="Group by Name" />
+            <CheckBox Grid.Column="1" IsChecked="{Binding IsGroupBySize, Mode=TwoWay}" Content="Group by Size" />
+            <CheckBox Grid.Column="2" IsChecked="{Binding IsGroupByDateTime, Mode=TwoWay}" Content="Group by DateTime" />
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button ToolTip="Start" Command="{Binding StartSearchCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Delete Selected" Command="{Binding DeleteSelectedCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\Clearallrequests_8816.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Delete all except selected" Command="{Binding DeleteAllExceptSelectedCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\detachprocess_6535.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Go to the Latest" Command="{Binding GoToTheLatestCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Open Directory" Command="{Binding OpenDirectoryCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Open File" Command="{Binding OpenFileCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Open Common Directory" Command="{Binding OpenCommonDirectoryCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Compare files" Command="{Binding CompareFilesCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Label  Content="{Binding StateOfProcessText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Column="0" ItemsSource="{Binding FilesGroups}" SelectedItem="{Binding SelectedFilesGroups}" Grid.RowSpan="2"/>
+            <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedFilesGroups.Files}" SelectedItem="{Binding SelectedFile}"
+                        AlternationCount="2" RowBackground="#DDDDFF" AlternatingRowBackground="#CCCCEE"
+                        IsReadOnly="false" AutoGenerateColumns="False" Margin="1"
+                        SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Height" Value="25" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}" MinWidth="100"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Length" Binding="{Binding Length, Mode=OneWay}" MinWidth="50"></DataGridTextColumn>
+                    <DataGridTextColumn Header="LastAccessTime" Binding="{Binding LastAccessTime, Mode=OneWay}" MinWidth="100"></DataGridTextColumn>
+                    <DataGridTextColumn Header="DirectoryName" Binding="{Binding DirectoryName, Mode=OneWay}" MinWidth="200"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Text="{Binding SelectedFile.DirectoryName}" Grid.Column="1" Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Window>

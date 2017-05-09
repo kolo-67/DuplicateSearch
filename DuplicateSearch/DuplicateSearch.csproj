@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A584E4A7-DC0C-4136-8657-576845394AC8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DuplicateSearch</RootNamespace>
+    <AssemblyName>DuplicateSearch</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=2.12.0.817, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NuGet.Core.2.12.0\lib\net40-Client\NuGet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Contracts\IPlayerActionQueriable.cs" />
+    <Compile Include="Model\FileGroup.cs" />
+    <Compile Include="Model\NameDateGroup.cs" />
+    <Compile Include="Model\NameGroup.cs" />
+    <Compile Include="Model\NameSizeDateGroup.cs" />
+    <Compile Include="Model\NameSizeGroup.cs" />
+    <Compile Include="Model\SizeDateGroup.cs" />
+    <Compile Include="Model\SizeGroup.cs" />
+    <Compile Include="SearchEngine\DirectoryEnumeration.cs" />
+    <Compile Include="Tools\FileInfoExtension.cs" />
+    <Compile Include="ViewModel\ComputerElementViewModel.cs" />
+    <Compile Include="ViewModel\DirectoryElementViewModel.cs" />
+    <Compile Include="ViewModel\DiskElementViewModel.cs" />
+    <Compile Include="ViewModel\DuplicateSearchViewModel.cs" />
+    <Compile Include="ViewModel\FileSystemElementViewModel.cs" />
+    <Compile Include="ViewModel\ShowFolderViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\DuplicateSearchView.xaml.cs">
+      <DependentUpon>DuplicateSearchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShowFolderView.xaml.cs">
+      <DependentUpon>ShowFolderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\DuplicateSearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShowFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Skins\DuplicateSearchSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\Picture\1downarrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\Picture\1downarrow1.png" />
+    <Resource Include="View\Picture\1leftarrow.png" />
+    <Resource Include="View\Picture\1rightarrow.png" />
+    <Resource Include="View\Picture\2dowarrow.png" />
+    <Resource Include="View\Picture\2leftarrow.png" />
+    <Resource Include="View\Picture\2rightarrow.png" />
+    <Resource Include="View\Picture\2uparrow.png" />
+    <Resource Include="View\Picture\active_network_connection16.bmp" />
+    <Resource Include="View\Picture\AddDataItem_32.bmp" />
+    <Resource Include="View\Picture\AddModule_368_32.bmp" />
+    <Resource Include="View\Picture\Addnewdatasource_8453_32.bmp" />
+    <Resource Include="View\Picture\AddNewItem_6273_32.bmp" />
+    <Resource Include="View\Picture\AddTable_5632_32.bmp" />
+    <Resource Include="View\Picture\agt_resume.png" />
+    <Resource Include="View\Picture\ASCube_32xLG.png" />
+    <Resource Include="View\Picture\balance16.bmp" />
+    <Resource Include="View\Picture\BMP.BMP" />
+    <Resource Include="View\Picture\CheckMark_6909_24.bmp" />
+    <Resource Include="View\Picture\Clearallrequests_8816.png" />
+    <Resource Include="View\Picture\ColorPalette.png" />
+    <Resource Include="View\Picture\ColorSelectionTool_202_32x.png" />
+    <Resource Include="View\Picture\colour_16.bmp" />
+    <Resource Include="View\Picture\colour_wheel_16.bmp" />
+    <Resource Include="View\Picture\Control_ColorDialog.bmp" />
+    <Resource Include="View\Picture\CopyHH.bmp" />
+    <Resource Include="View\Picture\CreateSchema_8259_32.bmp" />
+    <Resource Include="View\Picture\DataCompare_9880.png" />
+    <Resource Include="View\Picture\DeleteColumn_5627.png" />
+    <Resource Include="View\Picture\DeleteColumn_5627_32.bmp" />
+    <Resource Include="View\Picture\DeleteTablefromDatabase_270_32.bmp" />
+    <Resource Include="View\Picture\delete_x16.bmp" />
+    <Resource Include="View\Picture\detachprocess_6535.png" />
+    <Resource Include="View\Picture\DisplayInColorHS.bmp" />
+    <Resource Include="View\Picture\EditKey_309.png" />
+    <Resource Include="View\Picture\edit_remove ----.png" />
+    <Resource Include="View\Picture\edit_remove.png" />
+    <Resource Include="View\Picture\file.png" />
+    <Resource Include="View\Picture\fileclose.png" />
+    <Resource Include="View\Picture\FillRightHS.BMP" />
+    <Resource Include="View\Picture\FindSymbol_6263_32.bmp" />
+    <Resource Include="View\Picture\folder.png" />
+    <Resource Include="View\Picture\GenerateAll_32.bmp" />
+    <Resource Include="View\Picture\GetLatestVersion_13186_32.bmp" />
+    <Resource Include="View\Picture\GoToNextUncovered_8593_32.bmp" />
+    <Resource Include="View\Picture\GotoPreviousUncovered_8603_32.bmp" />
+    <Resource Include="View\Picture\Image1.bmp" />
+    <Resource Include="View\Picture\indexes16.bmp" />
+    <Resource Include="View\Picture\InsertTabControlHS.BMP" />
+    <Resource Include="View\Picture\large_icons16.bmp" />
+    <Resource Include="View\Picture\merge_cells16.bmp" />
+    <Resource Include="View\Picture\NewProperty_6860_32.bmp" />
+    <Resource Include="View\Picture\OpenFileDialog_692_24.bmp" />
+    <Resource Include="View\Picture\player_eject.png" />
+    <Resource Include="View\Picture\player_end.png" />
+    <Resource Include="View\Picture\player_end1.png" />
+    <Resource Include="View\Picture\player_fwd.png" />
+    <Resource Include="View\Picture\player_pause.png" />
+    <Resource Include="View\Picture\player_play.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\Picture\player_rew.png" />
+    <Resource Include="View\Picture\player_start.png" />
+    <Resource Include="View\Picture\player_stop.png" />
+    <Resource Include="View\Picture\plus16.bmp" />
+    <Resource Include="View\Picture\PrintPreview-OnePage_11079.png" />
+    <Resource Include="View\Picture\restart.png" />
+    <Resource Include="View\Picture\Saveall_6518.png" />
+    <Resource Include="View\Picture\saveHS.bmp" />
+    <Resource Include="View\Picture\Selectallrowsfrom_tableA__294_32.bmp" />
+    <Resource Include="View\Picture\Selectallrowsfrom_TableB_295.png" />
+    <Resource Include="View\Picture\SelectCell_363_12x.png" />
+    <Resource Include="View\Picture\show16.bmp" />
+    <Resource Include="View\Picture\UnComment_11701_32.bmp" />
+    <Resource Include="View\Picture\ZoomOut_12927.png" />
+    <Resource Include="View\Picture\Zoom_5442.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,39 @@
+﻿<Window x:Class="DuplicateSearch.View.ShowFolderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DuplicateSearch.ViewModel"
+        Title="FolderView" Height="500" Width="500"
+        Loaded="Window_Loaded"  WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Select subdirectories"/>
+        <TreeView Grid.Row="1" ItemsSource="{Binding ComputerFiles.Chields}" Margin="10" TreeViewItem.Expanded="trw_Products_Expanded">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Chields}" DataType="{x:Type local:FileSystemElementViewModel}">
+                    <TreeViewItem IsExpanded="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                  Expanded="TreeViewItem_OnExpanded">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected}"/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Width="70" Content="Ok" Command="{Binding OkCommand}" Click="ButtonBase_OnClick" Margin="10"/>
+            <Button Grid.Column="1" Width="70" Content="Cancel" Command="{Binding CancelCommand}" Click="ButtonBase_OnClick" Margin="10"/>
+        </Grid>
+
+    </Grid>
+</Window>
