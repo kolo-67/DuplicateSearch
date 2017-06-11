@@ -125,19 +125,25 @@
                 <Image  Source="Picture\detachprocess_6535.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Go to the Latest" Command="{Binding GoToTheLatestCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
-                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+                <Image  Source="Picture\view_top_bottom.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Open Directory" Command="{Binding OpenDirectoryCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
-                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+                <Image  Source="Picture\folder.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Open File" Command="{Binding OpenFileCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
-                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+                <Image  Source="Picture\BMP File.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Open Common Directory" Command="{Binding OpenCommonDirectoryCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
-                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+                <Image  Source="Picture\folder1.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Compare files" Command="{Binding CompareFilesCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
-                <Image  Source="Picture\player_play.png"  Style="{StaticResource ImageInButton}"/>
+                <Image  Source="Picture\reload.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Compare by content" Command="{Binding CompareByContentCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\run.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Compare by content all" Command="{Binding CompareByContentAllCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\hibernate.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Label  Content="{Binding StateOfProcessText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>

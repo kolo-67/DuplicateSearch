@@ -143,7 +143,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\Picture\BMP File.png" />
+    <Resource Include="View\Picture\Folder1.png" />
+    <Resource Include="View\Picture\reload.png" />
+    <Resource Include="View\Picture\run.png" />
+    <Resource Include="View\Picture\view_top_bottom.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Picture\1downarrow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

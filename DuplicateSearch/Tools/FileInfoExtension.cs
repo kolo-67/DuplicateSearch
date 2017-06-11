@@ -19,5 +19,16 @@ namespace DuplicateSearch.Tools
             }
 
         }
+        public static bool IsEqual(this byte[] content, byte[] otherContent)
+        {
+            if (content.Length != otherContent.Length)
+                return false;
+            for (int i = 0; i < content.Length; i++)
+            {
+                if (content[i] != otherContent[i])
+                    return false;
+            }
+            return true;
+        }
     }
 }

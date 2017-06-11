@@ -280,6 +280,10 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void DeleteAllExceptSelected()
         {
+            if (SelectedFilesGroups.Files.Count == 0)
+                return;
+            if (SelectedFile == null)
+                SelectedFile = SelectedFilesGroups.Files[0];
             for (int i = SelectedFilesGroups.Files.Count - 1; i >= 0; i--)
             {
                 if (SelectedFilesGroups.Files[i] != SelectedFile)
@@ -349,7 +353,16 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void GoToTheLatestAction()
         {
- 
+            if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
+            {
+                int lasti = 0;
+                for (int i = 1; i < SelectedFilesGroups.Files.Count; i++)
+                {
+                    if (SelectedFilesGroups.Files[i].LastWriteTime > SelectedFilesGroups.Files[lasti].LastWriteTime)
+                        lasti = i;
+                }
+                SelectedFile = SelectedFilesGroups.Files[lasti];
+            }
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanGoToTheLatestAction()
@@ -476,11 +489,22 @@ namespace DuplicateSearch.ViewModel
         {
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
-                var query = SelectedFilesGroups.Files.Select(f =>
+                var list = SelectedFilesGroups.Files.Select(f =>
                     {
-                        Task<byte[]> data = ReadFileContentAsync(f.FullName);
-                        return new { f.Directory.Name };
-                    });
+                        byte[] data = ReadFileContent(f.FullName);
+                        return new { Name = f.FullName, Data = data };
+                    }).ToList();
+
+                for (int i = 0; i < list.Count; i++)
+                    for( int j = i+1; j < list.Count; j++)
+                    {
+                        if ( !list[i].Data.IsEqual(list[j].Data))
+                        {
+                            MessageBox.Show(list[i].Name + " <> " + list[j].Name, "Not all files are equal");
+                            return;
+                        }
+                    }
+                MessageBox.Show("All files are equal");
             }
         }
         //-------------------------------------------------------------------------------------------------------------------
@@ -493,6 +517,20 @@ namespace DuplicateSearch.ViewModel
             {
                 result = new byte[SourceStream.Length];
                 await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
+            }
+            return result;
+
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private byte[] ReadFileContent(string fileName)
+        {
+            string filename = fileName;
+            byte[] result;
+
+            using (FileStream SourceStream = File.Open(filename, FileMode.Open))
+            {
+                result = new byte[SourceStream.Length];
+                SourceStream.Read(result, 0, (int)SourceStream.Length);
             }
             return result;
 
@@ -525,7 +563,116 @@ namespace DuplicateSearch.ViewModel
                 FilesGroups.Add(group.Clone());
             }));
         }
+        //------------------------------------------------------------------------------------------------------------------
+        private ICommand compareByContentAllCommand;
+        //-------------------------------------------------------------------------------------------------------------------
+        public ICommand CompareByContentAllCommand
+        {
+            get
+            {
+                if (compareByContentAllCommand == null)
+                {
+                    compareByContentAllCommand = new RelayCommand(CompareByContentAllAction, CanCompareByContentAllAction);
+                }
+                return compareByContentAllCommand;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private void CompareByContentAllAction()
+        {
+            if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
+            {
+                var list = SelectedFilesGroups.Files.Select(f =>
+                {
+                    byte[] data = ReadFileContent(f.FullName);
+                    return new { Name = f.FullName, Data = data };
+                }).ToList();
+
+                for (int i = 0; i < list.Count; i++)
+                    for (int j = i + 1; j < list.Count; j++)
+                    {
+                        if (!list[i].Data.IsEqual(list[j].Data))
+                        {
+                            MessageBox.Show(list[i].Name + " <> " + list[j].Name, "Not all files are equal");
+                            return;
+                        }
+                    }
+                MessageBox.Show("All files are equal");
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private bool CanCompareByContentAllAction()
+        {
+            return SelectedFilesGroups != null;
+        }
+        //------------------------------------------------------------------------------------------------------------------
+        private ICommand compareByContentCommand;
+        //-------------------------------------------------------------------------------------------------------------------
+        public ICommand CompareByContentCommand
+        {
+            get
+            {
+                if (compareByContentCommand == null)
+                {
+                    compareByContentCommand = new RelayCommand(CompareByContentAction, CanCompareByContentAction);
+                }
+                return compareByContentCommand;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private void CompareByContentAction()
+        {
+            if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
+            {
+                var list = SelectedFilesGroups.Files.Select(f =>
+                {
+                    byte[] data = ReadFileContent(f.FullName);
+                    return new FileContent { File = f, Data = data };
+                }).ToList();
+
+                var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
+                    OrderByDescending(o => o.List.Count()).ToList();
+                SelectedFilesGroups.Files = new ObservableCollection<FileInfo>();
+                foreach (var f in groups[0].List)
+                {
+                    SelectedFilesGroups.Files.Add(f);
+                }
+                MessageBox.Show("All files are equal");
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private bool CanCompareByContentAction()
+        {
+            return SelectedFilesGroups != null;
+        }
         //----------------------------------------------------------------------------------------------------------------------    
+    }
+    public class FileContent
+    {
+
+        public byte[] Data { get; set; }
+        public FileInfo File { get; set; }
+    }
+    public class ByteContent 
+    {
+
+        public byte[] Bytes { get; set; }
+    }
+    public class ByteArrayComparer : IEqualityComparer<byte[]>
+    {
+
+        public bool Equals(byte[] x, byte[] y)
+        {
+            return x.IsEqual(y);
+        }
+
+        public int GetHashCode(byte[] bytes)
+        {
+            int result = 0;
+            for (int i = 0; i < 5 && i < bytes.Length; i++)
+                result += bytes[i];
+            return result;
+        }
     }
     //----------------------------------------------------------------------------------------------------------------------    
 }

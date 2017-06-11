@@ -32,3 +32,37 @@ c:\users\kolo\documents\visual studio 2013\Projects\DuplicateSearch\DuplicateSea
 c:\users\kolo\documents\visual studio 2013\Projects\DuplicateSearch\DuplicateSearch\obj\Debug\View\ShowFolderView.g.cs
 c:\users\kolo\documents\visual studio 2013\Projects\DuplicateSearch\DuplicateSearch\obj\Debug\View\ShowFolderView.baml
 C:\Users\Kolo\documents\visual studio 2013\Projects\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.csprojResolveAssemblyReference.cache
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\DuplicateSearch.exe.config
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.exe
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.pdb
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\DuplicateSearch.exe
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\DuplicateSearch.pdb
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.Platform.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\Microsoft.Web.XmlTransform.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\NuGet.Core.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.pdb
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.xml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.Extras.xml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.Platform.pdb
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\GalaSoft.MvvmLight.Platform.xml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.csprojResolveAssemblyReference.cache
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\View\Skins\DuplicateSearchSkin.baml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\View\DuplicateSearchView.g.cs
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\View\ShowFolderView.g.cs
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\App.g.cs
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch_MarkupCompile.cache
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch_MarkupCompile.lref
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\App.baml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\View\DuplicateSearchView.baml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\View\ShowFolderView.baml
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.g.resources
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.Properties.Resources.resources
+C:\Users\Kolo\Source\GitHub\DuplicateSearch\DuplicateSearch\obj\Debug\DuplicateSearch.csproj.GenerateResource.Cache
