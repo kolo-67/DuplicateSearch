@@ -328,8 +328,11 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void DeleteSelectedAction()
         {
-            SelectedFile.Delete();
-            selectedFilesGroups.Files.Remove(SelectedFile);
+            if (SelectedFile != null)
+            {
+                SelectedFile.Delete();
+                selectedFilesGroups.Files.Remove(SelectedFile);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanDeleteSelectedAction()
@@ -425,6 +428,33 @@ namespace DuplicateSearch.ViewModel
         private bool CanOpenFileAction()
         {
             return selectedFile != null;
+        }
+        //------------------------------------------------------------------------------------------------------------------
+        private ICommand openAllFileCommand;
+        //-------------------------------------------------------------------------------------------------------------------
+        public ICommand OpenAllFileCommand
+        {
+            get
+            {
+                if (openAllFileCommand == null)
+                {
+                    openAllFileCommand = new RelayCommand(OpenAllFileAction, CanOpenAllFileAction);
+                }
+                return openAllFileCommand;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private void OpenAllFileAction()
+        {
+            foreach (var file in SelectedFilesGroups.Files)
+            {
+                System.Diagnostics.Process.Start(file.FullName);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private bool CanOpenAllFileAction()
+        {
+            return SelectedFilesGroups != null;
         }
         //------------------------------------------------------------------------------------------------------------------
         private ICommand openCommonDirectoryCommand;
@@ -580,24 +610,28 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void CompareByContentAllAction()
         {
-            if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
+            for (int i = FilesGroups.Count - 1; i >= 0; i-- )
             {
-                var list = SelectedFilesGroups.Files.Select(f =>
+                var list = FilesGroups[i].Files.Select(f =>
                 {
                     byte[] data = ReadFileContent(f.FullName);
-                    return new { Name = f.FullName, Data = data };
+                    return new FileContent { File = f, Data = data };
                 }).ToList();
 
-                for (int i = 0; i < list.Count; i++)
-                    for (int j = i + 1; j < list.Count; j++)
+                var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
+                    OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
+                FilesGroups[i].Files = new ObservableCollection<FileInfo>();
+                if (groups.Count > 0)
+                {
+                    foreach (var f in groups[0].List)
                     {
-                        if (!list[i].Data.IsEqual(list[j].Data))
-                        {
-                            MessageBox.Show(list[i].Name + " <> " + list[j].Name, "Not all files are equal");
-                            return;
-                        }
+                        FilesGroups[i].Files.Add(f);
                     }
-                MessageBox.Show("All files are equal");
+                }
+                else
+                {
+                    FilesGroups.RemoveAt(i);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------------
@@ -631,13 +665,15 @@ namespace DuplicateSearch.ViewModel
                 }).ToList();
 
                 var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
-                    OrderByDescending(o => o.List.Count()).ToList();
+                    OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
                 SelectedFilesGroups.Files = new ObservableCollection<FileInfo>();
-                foreach (var f in groups[0].List)
+                if (groups.Count > 0)
                 {
-                    SelectedFilesGroups.Files.Add(f);
+                    foreach (var f in groups[0].List)
+                    {
+                        SelectedFilesGroups.Files.Add(f);
+                    }
                 }
-                MessageBox.Show("All files are equal");
             }
         }
         //-------------------------------------------------------------------------------------------------------------------

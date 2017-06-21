@@ -8,10 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("view/picture/bmp%20file.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("view/picture/folder1.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("view/picture/reload.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("view/picture/run.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("view/picture/view_top_bottom.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("view/picture/rd.png")]
 
 

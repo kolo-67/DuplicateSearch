@@ -133,6 +133,9 @@
             <Button  ToolTip="Open File" Command="{Binding OpenFileCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
                 <Image  Source="Picture\BMP File.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
+            <Button  ToolTip="Open all Files" Command="{Binding OpenAllFileCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\BMP File.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
             <Button  ToolTip="Open Common Directory" Command="{Binding OpenCommonDirectoryCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
                 <Image  Source="Picture\folder1.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
@@ -143,7 +146,7 @@
                 <Image  Source="Picture\run.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Compare by content all" Command="{Binding CompareByContentAllCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
-                <Image  Source="Picture\hibernate.png"  Style="{StaticResource ImageInButton}"/>
+                <Image  Source="Picture\rd.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Label  Content="{Binding StateOfProcessText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>

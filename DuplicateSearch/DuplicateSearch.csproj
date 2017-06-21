@@ -230,6 +230,9 @@
     <Resource Include="View\Picture\ZoomOut_12927.png" />
     <Resource Include="View\Picture\Zoom_5442.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Picture\rd.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
