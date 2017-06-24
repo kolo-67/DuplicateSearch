@@ -165,7 +165,13 @@ namespace DuplicateSearch.ViewModel
             set
             {
                 stateOfProcess = value;
-//                RaisePropertyChanged(() => StateOfProcess);
+                if (StateOfProces == StateOfProcessEnum.Process)
+                    StateOfProcessText = "Working...";
+                else if (StateOfProces == StateOfProcessEnum.Complete)
+                    StateOfProcessText = "Completed";
+                else
+                    StateOfProcessText = string.Empty;
+                //                RaisePropertyChanged(() => StateOfProcess);
             }
         }
         //-------------------------------------------------------------------------------------------------------------------
@@ -231,7 +237,7 @@ namespace DuplicateSearch.ViewModel
         {
             FilesGroups = new ObservableCollection<FileGroup>();
             StateOfProces = StateOfProcessEnum.Process;
-            StateOfProcessText = "Working...";
+//            StateOfProcessText = "Working...";
 
             DirectoryEnumeration enumeration = new DirectoryEnumeration(IsGroupByName, isGroupBySize, IsGroupByDateTime)
             {
@@ -247,7 +253,7 @@ namespace DuplicateSearch.ViewModel
             
             await encTask;
 
-            StateOfProcessText = "Completed";
+//            StateOfProcessText = "Completed";
             StateOfProces = StateOfProcessEnum.Complete;       
         }
         //-------------------------------------------------------------------------------------------------------------------
@@ -280,6 +286,7 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void DeleteAllExceptSelected()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups.Files.Count == 0)
                 return;
             if (SelectedFile == null)
@@ -305,6 +312,7 @@ namespace DuplicateSearch.ViewModel
                 }
 
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanDeleteAllExceptSelectedAction()
@@ -356,6 +364,7 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void GoToTheLatestAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 int lasti = 0;
@@ -366,6 +375,7 @@ namespace DuplicateSearch.ViewModel
                 }
                 SelectedFile = SelectedFilesGroups.Files[lasti];
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanGoToTheLatestAction()
@@ -389,6 +399,7 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void OpenDirectoryAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             if (selectedFile != null)
             {
                 System.Diagnostics.Process.Start(selectedFile.Directory.FullName);
@@ -396,6 +407,7 @@ namespace DuplicateSearch.ViewModel
 
                 Clipboard.SetDataObject(data);
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanOpenDirectoryAction()
@@ -446,10 +458,12 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void OpenAllFileAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             foreach (var file in SelectedFilesGroups.Files)
             {
                 System.Diagnostics.Process.Start(file.FullName);
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanOpenAllFileAction()
@@ -473,6 +487,7 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void OpenCommonDirectoryAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 IEnumerable<string> comonPart = SelectedFilesGroups.Files[0].GetDirectoriesEnumerator();
@@ -494,6 +509,7 @@ namespace DuplicateSearch.ViewModel
                     Clipboard.SetDataObject(data);
                 }
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanOpenCommonDirectoryAction()
@@ -517,6 +533,7 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void CompareFilesAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 var list = SelectedFilesGroups.Files.Select(f =>
@@ -536,6 +553,7 @@ namespace DuplicateSearch.ViewModel
                     }
                 MessageBox.Show("All files are equal");
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private async Task<byte[]> ReadFileContentAsync(string fileName)
@@ -610,7 +628,8 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void CompareByContentAllAction()
         {
-            for (int i = FilesGroups.Count - 1; i >= 0; i-- )
+            StateOfProces = StateOfProcessEnum.Process;
+            for (int i = FilesGroups.Count - 1; i >= 0; i--)
             {
                 var list = FilesGroups[i].Files.Select(f =>
                 {
@@ -633,6 +652,7 @@ namespace DuplicateSearch.ViewModel
                     FilesGroups.RemoveAt(i);
                 }
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanCompareByContentAllAction()
@@ -656,6 +676,7 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void CompareByContentAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 var list = SelectedFilesGroups.Files.Select(f =>
@@ -675,6 +696,7 @@ namespace DuplicateSearch.ViewModel
                     }
                 }
             }
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanCompareByContentAction()
