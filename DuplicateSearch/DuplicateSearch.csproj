@@ -90,6 +90,8 @@
     <Compile Include="ViewModel\DiskElementViewModel.cs" />
     <Compile Include="ViewModel\DuplicateSearchViewModel.cs" />
     <Compile Include="ViewModel\FileSystemElementViewModel.cs" />
+    <Compile Include="ViewModel\DuplicateSearchDataViewModel.cs" />
+    <Compile Include="ViewModel\ISavable.cs" />
     <Compile Include="ViewModel\ShowFolderViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\DuplicateSearchView.xaml.cs">

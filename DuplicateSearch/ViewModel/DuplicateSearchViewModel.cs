@@ -12,6 +12,8 @@ using System.IO;
 using DuplicateSearch.Contracts;
 using DuplicateSearch.Tools;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace DuplicateSearch.ViewModel
 {
@@ -21,10 +23,25 @@ namespace DuplicateSearch.ViewModel
     //----------------------------------------------------------------------------------------------------------------------    
     // class DuplicateSearchViewModel
     //----------------------------------------------------------------------------------------------------------------------    
-    public class DuplicateSearchViewModel : ViewModelBase, IDuplicateSearchActionQueriable
+    public class DuplicateSearchViewModel : ViewModelBase, IDuplicateSearchActionQueriable, ISavable
     {
 
+        private const string DuplicateSearchFileName =  "DuplicateSearchData.bin";
         public event Action<object> FolderDialogQuery;
+        private DuplicateSearchDataViewModel duplicateSearchData;
+        //----------------------------------------------------------------------------------------------------------------------
+        public DuplicateSearchDataViewModel DuplicateSearchData
+        {
+            get
+            {
+                return duplicateSearchData;
+            }
+            set
+            {
+                duplicateSearchData = value;
+                RaisePropertyChanged(() => DuplicateSearchData);
+            }
+        }
         //----------------------------------------------------------------------------------------------------------------------    
         private ObservableCollection<FileGroup> filesGroups;
         public ObservableCollection<FileGroup> FilesGroups
@@ -59,93 +76,93 @@ namespace DuplicateSearch.ViewModel
             }
         }
         //----------------------------------------------------------------------------------------------------------------------    
-        private string directoryStart;
-        public string DirectoryStart
-        {
-            get { return directoryStart; }
-            set
-            {
-                directoryStart = value;
-                RaisePropertyChanged(() => DirectoryStart);
-            }
-        }
+        //private string directoryStart;
+        //public string DirectoryStart
+        //{
+        //    get { return directoryStart; }
+        //    set
+        //    {
+        //        directoryStart = value;
+        //        RaisePropertyChanged(() => DirectoryStart);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private string mask;
-        public string Mask
-        {
-            get { return mask; }
-            set
-            {
-                mask = value;
-                RaisePropertyChanged(() => Mask);
-            }
-        }
+        //private string mask;
+        //public string Mask
+        //{
+        //    get { return mask; }
+        //    set
+        //    {
+        //        mask = value;
+        //        RaisePropertyChanged(() => Mask);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private long sizeFrom;
-        public long SizeFrom
-        {
-            get { return sizeFrom; }
-            set
-            {
-                sizeFrom = value;
-                RaisePropertyChanged(() => SizeFrom);
-            }
-        }
+        //private long sizeFrom;
+        //public long SizeFrom
+        //{
+        //    get { return sizeFrom; }
+        //    set
+        //    {
+        //        sizeFrom = value;
+        //        RaisePropertyChanged(() => SizeFrom);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private long sizeTo;
-        public long SizeTo
-        {
-            get { return sizeTo; }
-            set
-            {
-                sizeTo = value;
-                RaisePropertyChanged(() => SizeTo);
-            }
-        }
+        //private long sizeTo;
+        //public long SizeTo
+        //{
+        //    get { return sizeTo; }
+        //    set
+        //    {
+        //        sizeTo = value;
+        //        RaisePropertyChanged(() => SizeTo);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private bool isFilterBySize;
-        public bool IsFilterBySize
-        {
-            get { return isFilterBySize; }
-            set
-            {
-                isFilterBySize = value;
-                RaisePropertyChanged(() => IsFilterBySize);
-            }
-        }
+        //private bool isFilterBySize;
+        //public bool IsFilterBySize
+        //{
+        //    get { return isFilterBySize; }
+        //    set
+        //    {
+        //        isFilterBySize = value;
+        //        RaisePropertyChanged(() => IsFilterBySize);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private bool isGroupByName;
-        public bool IsGroupByName
-        {
-            get { return isGroupByName; }
-            set
-            {
-                isGroupByName = value;
-                RaisePropertyChanged(() => IsGroupByName);
-            }
-        }
+        //private bool isGroupByName;
+        //public bool IsGroupByName
+        //{
+        //    get { return isGroupByName; }
+        //    set
+        //    {
+        //        isGroupByName = value;
+        //        RaisePropertyChanged(() => IsGroupByName);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private bool isGroupBySize;
-        public bool IsGroupBySize
-        {
-            get { return isGroupBySize; }
-            set
-            {
-                isGroupBySize = value;
-                RaisePropertyChanged(() => IsGroupBySize);
-            }
-        }
+        //private bool isGroupBySize;
+        //public bool IsGroupBySize
+        //{
+        //    get { return isGroupBySize; }
+        //    set
+        //    {
+        //        isGroupBySize = value;
+        //        RaisePropertyChanged(() => IsGroupBySize);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
-        private bool isGroupByDateTime;
-        public bool IsGroupByDateTime
-        {
-            get { return isGroupByDateTime; }
-            set
-            {
-                isGroupByDateTime = value;
-                RaisePropertyChanged(() => IsGroupByDateTime);
-            }
-        }
+        //private bool isGroupByDateTime;
+        //public bool IsGroupByDateTime
+        //{
+        //    get { return isGroupByDateTime; }
+        //    set
+        //    {
+        //        isGroupByDateTime = value;
+        //        RaisePropertyChanged(() => IsGroupByDateTime);
+        //    }
+        //}
         //----------------------------------------------------------------------------------------------------------------------    
         private string stateOfProcessText;
         public string StateOfProcessText
@@ -202,7 +219,7 @@ namespace DuplicateSearch.ViewModel
             OnFolderDialogQuery(showFolderViewModel);
             ObservableCollection<DirectoryElementViewModel> sf = showFolderViewModel.GetSelectetedFolders();
             if (sf != null && sf.Count > 0)
-                DirectoryStart = sf[0].Directory.FullName;
+                DuplicateSearchData.DirectoryStart = sf[0].Directory.FullName;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanGetStartDirectoryAction()
@@ -212,11 +229,20 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         public DuplicateSearchViewModel()
         {
-            IsFilterBySize = false;
-            IsGroupByDateTime = true;
-            IsGroupByName = true;
-            IsGroupBySize = true;
-            Mask = "*.*";
+            if (File.Exists(DuplicateSearchFileName))
+            {
+                DuplicateSearchData = Read();
+            }
+            else
+            {
+                DuplicateSearchData = new DuplicateSearchDataViewModel();
+                DuplicateSearchData.IsFilterBySize = false;
+                DuplicateSearchData.IsGroupByDateTime = true;
+                DuplicateSearchData.IsGroupByName = true;
+                DuplicateSearchData.IsGroupBySize = true;
+                DuplicateSearchData.Mask = "*.*";
+                Save();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------------
         private ICommand startSearchCommand;
@@ -239,13 +265,13 @@ namespace DuplicateSearch.ViewModel
             StateOfProces = StateOfProcessEnum.Process;
 //            StateOfProcessText = "Working...";
 
-            DirectoryEnumeration enumeration = new DirectoryEnumeration(IsGroupByName, isGroupBySize, IsGroupByDateTime)
+            DirectoryEnumeration enumeration = new DirectoryEnumeration(DuplicateSearchData.IsGroupByName, DuplicateSearchData.IsGroupBySize, DuplicateSearchData.IsGroupByDateTime)
             {
-                DirectoryStart = DirectoryStart,
-                IsFilterBySize = IsFilterBySize,
-                SizeFrom = SizeFrom,
-                SizeTo = SizeTo,
-                Mask = Mask
+                DirectoryStart = DuplicateSearchData.DirectoryStart,
+                IsFilterBySize = DuplicateSearchData.IsFilterBySize,
+                SizeFrom = DuplicateSearchData.SizeFrom,
+                SizeTo = DuplicateSearchData.SizeTo,
+                Mask = DuplicateSearchData.Mask
             };
             enumeration.NewFileGroup += enumeration_NewFileGroup;
             enumeration.NewFile += enumeration_NewFile;
@@ -278,15 +304,16 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private async void DeleteAllExceptSelectedAction()
         {
+            StateOfProces = StateOfProcessEnum.Process;
             Task taskProcess = new Task(() => DeleteAllExceptSelected());
             taskProcess.Start();
 
-            await taskProcess; 
+            await taskProcess;
+            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private void DeleteAllExceptSelected()
         {
-            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups.Files.Count == 0)
                 return;
             if (SelectedFile == null)
@@ -312,7 +339,6 @@ namespace DuplicateSearch.ViewModel
                 }
 
             }
-            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanDeleteAllExceptSelectedAction()
@@ -364,7 +390,6 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void GoToTheLatestAction()
         {
-            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 int lasti = 0;
@@ -375,12 +400,11 @@ namespace DuplicateSearch.ViewModel
                 }
                 SelectedFile = SelectedFilesGroups.Files[lasti];
             }
-            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanGoToTheLatestAction()
         {
-            return StateOfProces != StateOfProcessEnum.Process && SelectedFilesGroups != null;
+            return SelectedFilesGroups != null;
         }
         //------------------------------------------------------------------------------------------------------------------
         private ICommand openDirectoryCommand;
@@ -399,7 +423,6 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void OpenDirectoryAction()
         {
-            StateOfProces = StateOfProcessEnum.Process;
             if (selectedFile != null)
             {
                 System.Diagnostics.Process.Start(selectedFile.Directory.FullName);
@@ -407,7 +430,6 @@ namespace DuplicateSearch.ViewModel
 
                 Clipboard.SetDataObject(data);
             }
-            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanOpenDirectoryAction()
@@ -458,12 +480,10 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void OpenAllFileAction()
         {
-            StateOfProces = StateOfProcessEnum.Process;
             foreach (var file in SelectedFilesGroups.Files)
             {
                 System.Diagnostics.Process.Start(file.FullName);
             }
-            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanOpenAllFileAction()
@@ -487,7 +507,6 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void OpenCommonDirectoryAction()
         {
-            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 IEnumerable<string> comonPart = SelectedFilesGroups.Files[0].GetDirectoriesEnumerator();
@@ -509,7 +528,6 @@ namespace DuplicateSearch.ViewModel
                     Clipboard.SetDataObject(data);
                 }
             }
-            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanOpenCommonDirectoryAction()
@@ -533,7 +551,6 @@ namespace DuplicateSearch.ViewModel
         //-------------------------------------------------------------------------------------------------------------------
         private void CompareFilesAction()
         {
-            StateOfProces = StateOfProcessEnum.Process;
             if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
             {
                 var list = SelectedFilesGroups.Files.Select(f =>
@@ -553,7 +570,6 @@ namespace DuplicateSearch.ViewModel
                     }
                 MessageBox.Show("All files are equal");
             }
-            StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private async Task<byte[]> ReadFileContentAsync(string fileName)
@@ -629,35 +645,109 @@ namespace DuplicateSearch.ViewModel
         private void CompareByContentAllAction()
         {
             StateOfProces = StateOfProcessEnum.Process;
-            for (int i = FilesGroups.Count - 1; i >= 0; i--)
-            {
-                var list = FilesGroups[i].Files.Select(f =>
-                {
-                    byte[] data = ReadFileContent(f.FullName);
-                    return new FileContent { File = f, Data = data };
-                }).ToList();
+            Task task = new Task(() =>
+                           {
+                               for (int i = FilesGroups.Count - 1; i >= 0; i--)
+                               {
+                                   var list = FilesGroups[i].Files.Select(f =>
+                                   {
+                                       byte[] data = ReadFileContent(f.FullName);
+                                       return new FileContent { File = f, Data = data };
+                                   }).ToList();
 
-                var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
-                    OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
-                FilesGroups[i].Files = new ObservableCollection<FileInfo>();
-                if (groups.Count > 0)
-                {
-                    foreach (var f in groups[0].List)
-                    {
-                        FilesGroups[i].Files.Add(f);
-                    }
-                }
-                else
-                {
-                    FilesGroups.RemoveAt(i);
-                }
-            }
+                                   var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
+                                       OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
+                                   Application.Current.Dispatcher.Invoke(
+ (Action)(() =>
+ {
+     FilesGroups[i].Files = new ObservableCollection<FileInfo>();
+ }));
+                                   if (groups.Count > 0)
+                                   {
+                                       foreach (var f in groups[0].List)
+                                       {
+                                           Application.Current.Dispatcher.Invoke(
+         (Action)(() =>
+         {
+             FilesGroups[i].Files.Add(f);
+         }));
+                                       }
+                                   }
+                                   else
+                                   {
+                                       Application.Current.Dispatcher.Invoke(
+     (Action)(() =>
+     {
+         FilesGroups.RemoveAt(i);
+     }));
+                                   }
+                               }
+                           });
+            task.Start();
             StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanCompareByContentAllAction()
         {
-            return SelectedFilesGroups != null;
+            return StateOfProces != StateOfProcessEnum.Process;
+        }
+        //------------------------------------------------------------------------------------------------------------------
+        private ICommand compareAllAndDuplicatedCommand;
+        //-------------------------------------------------------------------------------------------------------------------
+        public ICommand CompareAllAndDuplicatedCommand
+        {
+            get
+            {
+                if (compareAllAndDuplicatedCommand == null)
+                {
+                    compareAllAndDuplicatedCommand = new RelayCommand(CompareAllAndDuplicatedAction, CanCompareAllAndDuplicatedAction);
+                }
+                return compareAllAndDuplicatedCommand;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private async void CompareAllAndDuplicatedAction()
+        {
+            StateOfProces = StateOfProcessEnum.Process;
+            Task task = new Task(() =>
+            {
+                for (int i = FilesGroups.Count - 1; i >= 0; i--)
+                {
+                    var list = FilesGroups[i].Files.Select(f =>
+                    {
+                        byte[] data = ReadFileContent(f.FullName);
+                        return new FileContent { File = f, Data = data };
+                    }).ToList();
+
+                    var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
+                        OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
+                    FilesGroups[i].Files = new ObservableCollection<FileInfo>();
+                    for (int j = 0; j < groups.Count; j++)
+                    {
+                        var listc = groups[j].List.ToList();
+                        FilesGroups[i].Files.Add(listc[0]);
+                        for (int k = 1; k < listc.Count; k++)
+                        {
+                            try
+                            {
+                                File.Delete(listc[k].FullName);
+                            }
+                            catch (UnauthorizedAccessException e)
+                            {
+                                MessageBox.Show(e.Message);
+                            }
+                        }
+                    }
+                }
+            });
+            task.Start();
+            await task;
+            StateOfProces = StateOfProcessEnum.Complete;
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        private bool CanCompareAllAndDuplicatedAction()
+        {
+            return StateOfProces != StateOfProcessEnum.Process;
         }
         //------------------------------------------------------------------------------------------------------------------
         private ICommand compareByContentCommand;
@@ -674,34 +764,56 @@ namespace DuplicateSearch.ViewModel
             }
         }
         //-------------------------------------------------------------------------------------------------------------------
-        private void CompareByContentAction()
+        private async void CompareByContentAction()
         {
             StateOfProces = StateOfProcessEnum.Process;
-            if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
-            {
-                var list = SelectedFilesGroups.Files.Select(f =>
+            Task task = new Task(() =>
                 {
-                    byte[] data = ReadFileContent(f.FullName);
-                    return new FileContent { File = f, Data = data };
-                }).ToList();
-
-                var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
-                    OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
-                SelectedFilesGroups.Files = new ObservableCollection<FileInfo>();
-                if (groups.Count > 0)
-                {
-                    foreach (var f in groups[0].List)
+                    if (SelectedFilesGroups != null && SelectedFilesGroups.Files.Count > 1)
                     {
-                        SelectedFilesGroups.Files.Add(f);
+                        var list = SelectedFilesGroups.Files.Select(f =>
+                        {
+                            byte[] data = ReadFileContent(f.FullName);
+                            return new FileContent { File = f, Data = data };
+                        }).ToList();
+
+                        var groups = list.GroupBy(f => f.Data, f => f.File, (k, l) => new { key = k, List = l }, new ByteArrayComparer()).
+                            OrderByDescending(o => o.List.Count()).Where(o => o.List.Count() > 1).ToList();
+                        SelectedFilesGroups.Files = new ObservableCollection<FileInfo>();
+                        if (groups.Count > 0)
+                        {
+                            foreach (var f in groups[0].List)
+                            {
+                                SelectedFilesGroups.Files.Add(f);
+                            }
+                        }
                     }
-                }
-            }
+                });
+            await task;
             StateOfProces = StateOfProcessEnum.Complete;
         }
         //-------------------------------------------------------------------------------------------------------------------
         private bool CanCompareByContentAction()
         {
-            return SelectedFilesGroups != null;
+            return StateOfProces != StateOfProcessEnum.Process && SelectedFilesGroups != null;
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        public DuplicateSearchDataViewModel Read()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(DuplicateSearchFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            DuplicateSearchDataStore data = (DuplicateSearchDataStore)formatter.Deserialize(stream);
+            stream.Close();
+            return new DuplicateSearchDataViewModel( data);
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        public void Save()
+        {
+            DuplicateSearchDataStore data = DuplicateSearchData.ToData();
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(DuplicateSearchFileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, data);
+            stream.Close();
         }
         //----------------------------------------------------------------------------------------------------------------------    
     }

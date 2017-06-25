@@ -29,6 +29,12 @@ namespace DuplicateSearch.View
         {
             InitializeComponent();
             DataContext = new DuplicateSearchViewModel();
+            ISavable saveModel = DataContext as ISavable;
+            if (saveModel != null)
+            {
+                this.Closing += (s, ev) => saveModel.Save(); ;
+
+            }
         }
         //-------------------------------------------------------------------------------------------------------------------
         void DuplicateSearchAction_FolderDialogQuery(object obj)

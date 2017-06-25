@@ -78,7 +78,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="_Directory" Target="{Binding ElementName=txtDirectory}" />
-            <TextBox x:Name="txtDirectory" Grid.Column="1" Text="{Binding DirectoryStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox x:Name="txtDirectory" Grid.Column="1" Text="{Binding DuplicateSearchData.DirectoryStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Style="{StaticResource InputStyle}"/>
             <Button Grid.Column="2" ToolTip="Define Start Directory" Command="{Binding GetStartDirectoryCommand}"  Style="{StaticResource ButtonImage}">
                 <Image  Source="Picture\OpenFileDialog_692_24.bmp"  Style="{StaticResource ImageInButton}"/>
@@ -96,12 +96,12 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="_Mask" Target="{Binding ElementName=txtMask}"/>
-            <TextBox x:Name="txtMask" Grid.Column="1" Text="{Binding Mask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource InputStyle}"/>
+            <TextBox x:Name="txtMask" Grid.Column="1" Text="{Binding DuplicateSearchData.Mask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource InputStyle}"/>
             <Label Grid.Column="2" Content="Size _From" Target="{Binding ElementName=txtSizeFrom}"/>
-            <TextBox x:Name="txtSizeFrom" Grid.Column="3" Text="{Binding SizeFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputStyle}"/>
+            <TextBox x:Name="txtSizeFrom" Grid.Column="3" Text="{Binding DuplicateSearchData.SizeFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputStyle}"/>
             <Label Grid.Column="4" Content="_To" Target="{Binding ElementName=txtSizeTo}"/>
-            <TextBox x:Name="txtSizeTo" Grid.Column="5" Text="{Binding SizeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource InputStyle}"/>
-            <CheckBox Grid.Column="8" IsChecked="{Binding IsFilterBySize, Mode=TwoWay}" Content="Filter by Size" />
+            <TextBox x:Name="txtSizeTo" Grid.Column="5" Text="{Binding DuplicateSearchData.SizeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource InputStyle}"/>
+            <CheckBox Grid.Column="8" IsChecked="{Binding DuplicateSearchData.IsFilterBySize, Mode=TwoWay}" Content="Filter by Size" />
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -110,9 +110,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <CheckBox Grid.Column="0" IsChecked="{Binding IsGroupByName, Mode=TwoWay}" Content="Group by Name" />
-            <CheckBox Grid.Column="1" IsChecked="{Binding IsGroupBySize, Mode=TwoWay}" Content="Group by Size" />
-            <CheckBox Grid.Column="2" IsChecked="{Binding IsGroupByDateTime, Mode=TwoWay}" Content="Group by DateTime" />
+            <CheckBox Grid.Column="0" IsChecked="{Binding DuplicateSearchData.IsGroupByName, Mode=TwoWay}" Content="Group by Name" />
+            <CheckBox Grid.Column="1" IsChecked="{Binding DuplicateSearchData.IsGroupBySize, Mode=TwoWay}" Content="Group by Size" />
+            <CheckBox Grid.Column="2" IsChecked="{Binding DuplicateSearchData.IsGroupByDateTime, Mode=TwoWay}" Content="Group by DateTime" />
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <Button ToolTip="Start" Command="{Binding StartSearchCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
@@ -146,6 +146,9 @@
                 <Image  Source="Picture\run.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Button  ToolTip="Compare by content all" Command="{Binding CompareByContentAllCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
+                <Image  Source="Picture\rd.png"  Style="{StaticResource ImageInButton}"/>
+            </Button>
+            <Button  ToolTip="Compare by content all and remove duplicated" Command="{Binding CompareAllAndDuplicatedCommand}"  Style="{StaticResource ButtonImage}" ToolTipService.ShowOnDisabled="True">
                 <Image  Source="Picture\rd.png"  Style="{StaticResource ImageInButton}"/>
             </Button>
             <Label  Content="{Binding StateOfProcessText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
